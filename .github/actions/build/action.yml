@@ -14,6 +14,9 @@ inputs:
   build-target-type:
     default: 'template_debug'
     description: Build type (template_debug or template_release).
+  godot-repo:
+    default: ''
+    description: Path to Godot repo.
   scons-cache:
     default: .scons-cache/
     description: Scons cache location.
@@ -108,7 +111,7 @@ runs:
       env:
         SCONS_CACHE: ${{ github.workspace }}/${{ inputs.godot-cpp }}/${{ inputs.scons-cache }}/
       run: |
-        scons target=${{ inputs.build-target-type }} platform=${{ inputs.platform }} arch=${{ inputs.arch }} generate_bindings=yes precision=${{ inputs.float-precision }}
+        scons target=${{ inputs.build-target-type }} platform=${{ inputs.platform }} arch=${{ inputs.arch }} generate_bindings=yes precision=${{ inputs.float-precision }} godot_repo=${{ inputs.godot-repo }}
       working-directory: ${{ inputs.godot-cpp }}
 # Build gdextension
     - name: Build GDExtension Debug Build
@@ -116,5 +119,5 @@ runs:
       env:
         SCONS_CACHE: ${{ github.workspace }}/${{ inputs.gdextension-location }}/${{ inputs.scons-cache }}/
       run: |
-        scons target=${{ inputs.build-target-type }} platform=${{ inputs.platform }} arch=${{ inputs.arch }} precision=${{ inputs.float-precision }}
+        scons target=${{ inputs.build-target-type }} platform=${{ inputs.platform }} arch=${{ inputs.arch }} precision=${{ inputs.float-precision }} godot_repo=${{ inputs.godot-repo }}
       working-directory: ${{ inputs.gdextension-location }}
