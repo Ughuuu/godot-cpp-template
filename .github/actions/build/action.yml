@@ -31,7 +31,7 @@ runs:
   using: composite
   steps:
     - name: Setup GDExtension
-      uses: ./.github/actions/setup-gdextension.yml
+      uses: ./.github/actions/setup.yml
       with:
         platform: ${{ inputs.platform }}
         arch: ${{ inputs.arch }}
