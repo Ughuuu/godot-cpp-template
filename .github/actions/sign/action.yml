@@ -173,7 +173,8 @@ runs:
       #ditto -c -k --keepParent ${{ inputs.game-name }}.app ${{ inputs.game-name }}.zip
 
       #ditto -ck -rsrc --sequesterRsrc --keepParent "$Framework" "$Archive"
-      ditto -c -k --keepParent --keepParent "$Framework" "$Archive"
+      #ditto -c -k --keepParent --keepParent "$Framework" "$Archive"
+      zip -q -9 -r "$Framework" "$Archive"
       Write-Output "Submitting archive for notarization..."
 
       $output = xcrun notarytool submit "$Archive" `
