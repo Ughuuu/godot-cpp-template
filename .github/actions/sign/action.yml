@@ -168,8 +168,12 @@ runs:
 
       Write-Output "Archiving framework to '$Archive'..."
 
-      ditto -ck -rsrc --sequesterRsrc --keepParent "$Framework" "$Archive"
 
+        # Package the application into a zip file
+      ditto -c -k --keepParent ${{ inputs.game-name }}.app ${{ inputs.game-name }}.zip
+
+      #ditto -ck -rsrc --sequesterRsrc --keepParent "$Framework" "$Archive"
+      ditto -c -k --keepParent --keepParent "$Framework" "$Archive"
       Write-Output "Submitting archive for notarization..."
 
       $output = xcrun notarytool submit "$Archive" `
