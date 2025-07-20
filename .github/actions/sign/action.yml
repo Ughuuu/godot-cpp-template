@@ -127,7 +127,7 @@ runs:
       Write-Output "Importing certificate into keychain..."
       security import $CertificatePath `
         -k ~/Library/Keychains/$Keychain `
-        -P $CertificatePassword `
+        -P "$CertificatePassword" `
         -T $CodesignPath
       Write-Output "Check identities..."
       security find-identity
