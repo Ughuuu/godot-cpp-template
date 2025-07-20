@@ -141,12 +141,27 @@ runs:
       $SignFlags = "${{ inputs.SIGN_FLAGS }}"
       $Archive = [IO.Path]::ChangeExtension((New-TemporaryFile), "zip")
 
-      Write-Output "Signing '$Framework'..."
 
-      & $CodesignPath --verify --timestamp --verbose "$SignFlags" --sign $DeveloperIdApplication --deep "$Framework"
+      Write-Output "Signing all Mach-O binaries inside the framework..."
+
+      $MachOBinaries = Get-ChildItem -Path "$Framework" -Recurse -File | Where-Object {
+          $bytes = [System.IO.File]::ReadAllBytes($_.FullName)
+          if ($bytes.Length -ge 4) {
+              $magic = [BitConverter]::ToUInt32($bytes, 0)
+              return ($magic -eq 0xfeedface -or $magic -eq 0xfeedfacf -or $magic -eq 0xcafebabe -or $magic -eq 0xcafebabf)
+          }
+          return $false
+      }
+
+      foreach ($bin in $MachOBinaries) {
+          Write-Output "Signing binary: $($bin.FullName)"
+          & $CodesignPath --timestamp --verbose "$SignFlags" --sign $DeveloperIdApplication $bin.FullName
+      }
+
+      Write-Output "Signing framework directory..."
+      & $CodesignPath --timestamp --verbose "$SignFlags" --sign $DeveloperIdApplication --deep "$Framework"
 
       Write-Output "Verifying signing..."
-
       & $CodesignPath --verify -dvvv "$Framework"
 
       Get-ChildItem -Force -Recurse -Path "$Framework"
