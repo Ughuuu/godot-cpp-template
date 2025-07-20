@@ -143,7 +143,7 @@ runs:
 
       Write-Output "Signing '$Framework'..."
 
-      & $CodesignPath --verify --timestamp --verbose "$SignFlags" --sign $DeveloperIdApplication "$Framework"
+      & $CodesignPath --verify --timestamp --verbose "$SignFlags" --sign $DeveloperIdApplication --deep "$Framework"
 
       Write-Output "Verifying signing..."
 
