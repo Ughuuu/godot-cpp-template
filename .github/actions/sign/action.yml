@@ -130,8 +130,9 @@ runs:
         -P $CertificatePassword `
         -T $CodesignPath
       Write-Output "Check identities..."
-
       security find-identity
+      Write-Output "Checking identities for codesigning..."
+      security find-identity -v -p codesigning
 
       Write-Output "Granting access to keychain..."
 
