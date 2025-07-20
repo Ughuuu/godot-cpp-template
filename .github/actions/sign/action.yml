@@ -170,7 +170,7 @@ runs:
 
 
         # Package the application into a zip file
-      ditto -c -k --keepParent ${{ inputs.game-name }}.app ${{ inputs.game-name }}.zip
+      #ditto -c -k --keepParent ${{ inputs.game-name }}.app ${{ inputs.game-name }}.zip
 
       #ditto -ck -rsrc --sequesterRsrc --keepParent "$Framework" "$Archive"
       ditto -c -k --keepParent --keepParent "$Framework" "$Archive"
