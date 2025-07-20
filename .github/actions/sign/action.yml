@@ -174,7 +174,7 @@ runs:
 
       #ditto -ck -rsrc --sequesterRsrc --keepParent "$Framework" "$Archive"
       #ditto -c -k --keepParent --keepParent "$Framework" "$Archive"
-      zip -q -9 -r "$Framework" "$Archive"
+      zip -q -9 -r "$Archive" "$Framework"
       Write-Output "Submitting archive for notarization..."
 
       $output = xcrun notarytool submit "$Archive" `
